@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Japanese IME Support for Asana",
+  "description": "This extension avoid bug with IME on Asana.",
+  "version": "1.0",
+
+  "content_scripts": [
+    {
+      "matches": ["https://app.asana.com/*"],
+      "js": ["inject.js"]
+    }
+  ],
+  "web_accessible_resources": ["app.js"]
+}
