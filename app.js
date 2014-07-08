@@ -1,18 +1,30 @@
 (function() {
   "use strict";
 
-  var view = window.HypertextInputView.MultiLine.prototype;
-  view.__isEnableIme = false;
-  view.__onKeyDown = view._onKeyDown;
-  view._onKeyDown = function(a) {
-    this.__isEnableIme = a.keyCode === 229;
-    return this.__onKeyDown(a);
+  var keymap = KeyMap.prototype;
+  keymap.__processKey = keymap.processKey;
+  keymap.processKey = function(a, b) {
+    a.target().__isEnableIme = a._event.keyCode === 229;
+    this.__processKey(a, b); 
   };
-  view.__addSelectionMarkersToDomIfFocused = view._addSelectionMarkersToDomIfFocused;
+
+  var view = window.HypertextInputView.MultiLine.prototype;
+    view.__addSelectionMarkersToDomIfFocused = view._addSelectionMarkersToDomIfFocused;
   view._addSelectionMarkersToDomIfFocused = function() {
     if (this.__isEnableIme === false) {
       return this.__addSelectionMarkersToDomIfFocused();
     }
   };
 
+  var node = Node.prototype;
+  node.__isEnableIme = false;
+  node.__defaultHandler = node._defaultHandler;
+  node._defaultHandler = function(a, b, c) {
+    if (b._model.isBar() && this.__isEnableIme === true) {
+      return Node.JUST_DEFAULT;
+    } else {
+      return this.__defaultHandler(a, b, c);
+    }
+  };
+  
 }());

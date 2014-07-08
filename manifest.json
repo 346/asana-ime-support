@@ -3,6 +3,8 @@
   "name": "Japanese IME Support for Asana",
   "description": "This extension avoid bug with IME on Asana.",
   "version": "1.0",
+  "icons": { "48": "48.png",
+          "128": "128.png" },
 
   "content_scripts": [
     {
